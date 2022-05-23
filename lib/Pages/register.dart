@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:practicas/services/register.dart';
 
 import '../Styles/colors_view.dart';
 
@@ -12,6 +13,9 @@ class Register extends StatefulWidget {
 class _RegisterState extends State<Register> {
   bool _isObscure = true;
   bool _check = false;
+  String? fullname = '';
+  String? email = '';
+  String? password = '';
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -68,7 +72,9 @@ class _RegisterState extends State<Register> {
                         borderSide: BorderSide(color: Colors.black, width: 1)),
                     hintText: 'Nombre completo',
                   ),
-                  onChanged: (text) {},
+                  onChanged: (text) {
+                    fullname = text;
+                  },
                 ),
               ),
               Container(
@@ -90,9 +96,11 @@ class _RegisterState extends State<Register> {
                     border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(20)),
                         borderSide: BorderSide(color: Colors.black, width: 1)),
-                    hintText: 'Nombre completo',
+                    hintText: 'Correo electronico',
                   ),
-                  onChanged: (text) {},
+                  onChanged: (text) {
+                    email = text;
+                  },
                 ),
               ),
               Container(
@@ -126,7 +134,9 @@ class _RegisterState extends State<Register> {
                         borderSide: BorderSide(color: Colors.black, width: 1)),
                     hintText: 'Password',
                   ),
-                  onChanged: (text) {},
+                  onChanged: (text) {
+                    password = text;
+                  },
                 ),
               ),
               Container(
@@ -153,9 +163,9 @@ class _RegisterState extends State<Register> {
                       shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(50)),
                     ),
-                    Container(
+                    const SizedBox(
                       height: 40,
-                      child: const Text(
+                      child: Text(
                         'Al registrarme, acepto los terminos y\n  condiciones yla politica de privacidad.',
                         style: TextStyle(fontSize: 15),
                       ),
@@ -173,7 +183,35 @@ class _RegisterState extends State<Register> {
                         'Crear Cuenta',
                         style: TextStyle(fontSize: 18),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        if (fullname == '' && email == '' && password == '') {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              duration: Duration(milliseconds: 1000),
+                              content: Text('Rellene los campos'),
+                            ),
+                          );
+                        } else {
+                          register(fullname!, email!, password!).then((value) {
+                            print(value);
+                            if (value) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  duration: Duration(milliseconds: 1000),
+                                  content: Text('Usuario creado'),
+                                ),
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  duration: Duration(milliseconds: 1000),
+                                  content: Text('No se ha podido registrar'),
+                                ),
+                              );
+                            }
+                          });
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
                           primary: ColorSelect.splashColor,
                           shape: RoundedRectangleBorder(

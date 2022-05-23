@@ -43,7 +43,7 @@ class _SplashViewState extends State<SplashView> {
     Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (context) => OnBoarding(),
+          builder: (context) => const OnBoarding(),
         ));
   }
 
