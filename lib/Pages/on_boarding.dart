@@ -53,6 +53,7 @@ class _OnBoardingState extends State<OnBoarding> {
                 controller: controller,
                 onPageChanged: (value) {
                   setState(() {
+                    
                     pages = value;
                   });
                 },

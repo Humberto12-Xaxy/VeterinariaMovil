@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:practicas/Pages/forgotPass.dart';
+import 'package:practicas/Pages/home.dart';
 import 'package:practicas/Pages/homepage.dart';
 import 'package:practicas/Pages/login.dart';
 import 'package:practicas/Pages/progressView.dart';
@@ -20,14 +21,15 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       // home: SplashView(),
-      initialRoute: 'splash',
+      initialRoute: 'register',
       routes: {
         'splash': (context) => const SplashView(),
         'progress': (context) => const ProgressView(),
         'home': (context) => const HomePage(),
         'login': (context) => const Login(),
-        'register' : (context) => Register(),
-        'forgotPass' :(context) => const ForgotPassword()
+        'register': (context) => Register(),
+        'forgotPass': (context) => const ForgotPassword(),
+        'homepage': (context) => const Home()
       },
     );
   }
