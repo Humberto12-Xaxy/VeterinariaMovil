@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       // home: SplashView(),
-      initialRoute: 'register',
+      initialRoute: 'splash',
       routes: {
         'splash': (context) => const SplashView(),
         'progress': (context) => const ProgressView(),

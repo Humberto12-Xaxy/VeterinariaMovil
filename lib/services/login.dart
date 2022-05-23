@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 
-Future<String> login(String email, String password) async {
+Future<Map<String, dynamic>> login(String email, String password) async {
   Map<String, String> headers = {'Content-Type': 'application/json'};
   String loginAPI = '/api/login/';
   String host = '192.168.0.10:5000';
@@ -14,9 +14,19 @@ Future<String> login(String email, String password) async {
         {'email': email, 'password': password},
       ),
     );
-    print(response);
-    return '';
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      Map<String, dynamic> responseMap = {
+        'status': data['status'],
+        'token': data['token']
+      };
+      return responseMap;
+    } else {
+      return {
+        'status' : 'Error'
+      };
+    }
   } catch (e) {
-    return 'Error al conectarse al servidor';
+    return {'status': 'Error al conectarse con el servidor'};
   }
 }
