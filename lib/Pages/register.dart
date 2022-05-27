@@ -200,6 +200,7 @@ class _RegisterState extends State<Register> {
                                   content: Text('Usuario creado'),
                                 ),
                               );
+                              Navigator.pushReplacementNamed(context, 'login');
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(

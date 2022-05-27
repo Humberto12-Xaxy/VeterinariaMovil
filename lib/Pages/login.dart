@@ -145,7 +145,6 @@ class _LoginState extends State<Login> {
                           );
                         } else {
                           login(email!, password!).then((value) {
-                                print(value);
                                 if (value['status'] == 'success') {
                                   Navigator.pushReplacementNamed(
                                       context, 'homepage');

@@ -156,6 +156,7 @@ class _HomePageState extends State<Home> {
             height: 300,
             color: ColorSelect.txtBoHe,
             child: GridView.count(
+              scrollDirection: Axis.horizontal,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
               crossAxisCount: 4,

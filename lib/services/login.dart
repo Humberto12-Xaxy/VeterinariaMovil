@@ -4,7 +4,7 @@ import 'package:http/http.dart' as http;
 Future<Map<String, dynamic>> login(String email, String password) async {
   Map<String, String> headers = {'Content-Type': 'application/json'};
   String loginAPI = '/api/login/';
-  String host = '192.168.0.10:5000';
+  String host = '172.20.10.4:5000';
 
   try {
     final response = await http.post(
