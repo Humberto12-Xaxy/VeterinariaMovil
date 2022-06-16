@@ -1,7 +1,10 @@
-import 'dart:async';
-
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:practicas/Pages/product.dart';
+import 'package:practicas/services/carousel.dart';
+import 'package:practicas/services/carouselProduct.dart';
+import 'package:practicas/services/filter.dart';
+import 'package:practicas/widgets/bottom_canvas_widget.dart';
 import 'package:practicas/widgets/dialog.dart';
 
 import '../Styles/colors_view.dart';
@@ -14,6 +17,8 @@ class Home extends StatefulWidget {
 }
 
 class _HomePageState extends State<Home> {
+  String? dropdownValue = 'One';
+  String? dropdownValue2 = 'Entrega a domicilio';
   int pages = 0;
   PageController controller = PageController();
   List<String> images = [
@@ -52,165 +57,568 @@ class _HomePageState extends State<Home> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _changeImage();
+    // _changeImage();
   }
 
   @override
   Widget build(BuildContext context) {
+    List<Widget> listWidgets = [
+      Container(
+        width: 55,
+        height: 55,
+        decoration: BoxDecoration(
+          color: Colors.grey[200]!,
+          borderRadius: BorderRadius.circular(50),
+        ),
+        child: IconButton(
+          color: Colors.grey[400]!,
+          onPressed: () {},
+          icon: const Icon(Icons.add),
+        ),
+      ),
+      Container(
+        margin: const EdgeInsets.only(left: 5),
+        height: 70,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Text(
+              'Agregar',
+              style: TextStyle(color: Colors.grey[600]!),
+            ),
+            Text(
+              'mascota',
+              style: TextStyle(color: Colors.grey[600]!),
+            )
+          ],
+        ),
+      )
+    ];
+    Size size = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: const Text('Title'),
+        title: const Text('Tienda'),
         iconTheme: const IconThemeData(color: ColorSelect.paginatorNext),
         actions: [
-          Container(
-            padding: const EdgeInsets.only(left: 90),
-            height: 60,
-            width: 170,
-            child: Image.asset('assets/img/splash.png'),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.shopping_bag,
+            ),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.notifications,
+            ),
+          ),
+          IconButton(
+            onPressed: () {},
+            icon: const Icon(
+              Icons.manage_accounts,
+            ),
           )
         ],
         backgroundColor: ColorSelect.txtBoHe,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: const <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-            icon: Icon(Icons.access_alarm),
-            label: 'Alarm',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home),
-            label: 'Home',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings),
-            label: 'Home',
-          ),
-        ],
-        selectedItemColor: Colors.blueGrey,
-        unselectedItemColor: ColorSelect.txtBoHe,
-        currentIndex: 1,
-        onTap: (index) {},
-        // backgroundColor: ColorSelect.txtBoHe,
-      ),
-      body: Column(
-        children: [
-          Container(
-            margin:
-                const EdgeInsets.only(top: 35, left: 20, right: 20, bottom: 20),
-            width: double.infinity,
-            height: 150,
-            child: PageView.builder(
-              controller: controller,
-              onPageChanged: (value) {
-                setState(() {
-                  pages = value;
-                });
-              },
-              itemCount: 3,
-              itemBuilder: (context, index) => Image.asset(
-                'assets/img/img.jpg',
+      bottomNavigationBar: SizedBox(
+        height: 80,
+        child: Stack(
+          children: [
+            CustomPaint(
+              size: const Size.fromHeight(80),
+              painter: BottomCanvas(),
+            ),
+            Container(
+              margin: const EdgeInsets.only(left: 10, right: 10),
+              alignment: Alignment.center,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.home,
+                      size: 35,
+                      color: Colors.white,
+                    ),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.assignment,
+                        size: 35, color: Colors.white),
+                  ),
+                  IconButton(
+                    onPressed: () {},
+                    icon: const Icon(Icons.pets, size: 35, color: Colors.white),
+                  ),
+                ],
               ),
             ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(bottom: 30),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children:
-                      List.generate(3, (index) => animatedMethod(index: index)),
-                )
-              ],
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(left: 30, right: 30),
-            color: ColorSelect.txtBoHe,
-            width: double.infinity,
-            height: 70,
-            child: CarouselSlider(
-              options: CarouselOptions(
-                disableCenter: true,
-                viewportFraction: 0.3,
-              ),
-              items: images
-                  .map((item) => Container(
-                        width: 50,
-                        height: 50,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle,
-                          image: DecorationImage(
-                            fit: BoxFit.cover,
-                            image: NetworkImage(item),
-                          ),
-                        ),
-                      ))
-                  .toList(),
-            ),
-          ),
-          Container(
-            margin: const EdgeInsets.only(top: 30, right: 20, left: 20),
-            width: double.infinity,
-            height: 300,
-            color: ColorSelect.txtBoHe,
-            child: GridView.count(
-              scrollDirection: Axis.horizontal,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              crossAxisCount: 4,
-              children: gridImages.map((item) => _createCards(item)).toList(),
-            ),
-          )
-        ],
-      ),
-    );
-  }
-
-  Card _createCards(String image) {
-    return Card(
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(30),
+          ],
         ),
-        child: InkWell(
-          onTap: () async {
-            await showDialog(
-                context: context,
-                builder: (_) => DialogContainer(image: image));
-          },
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(30),
-            child: Image(
-              fit: BoxFit.cover,
-              image: NetworkImage(image),
-            ),
+      ),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: size.width / 2,
+                      height: 150,
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              Container(
+                                margin:
+                                    const EdgeInsets.only(top: 10, left: 20),
+                                child: const Text(
+                                  'Hola',
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 10, left: 5),
+                                child: const Text(
+                                  'Juan',
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold,
+                                      color: Color.fromARGB(255, 94, 184, 97)),
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 10),
+                                child: const Text(
+                                  ',',
+                                  style: TextStyle(
+                                      fontSize: 25,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              Container(
+                                padding:
+                                    const EdgeInsets.only(bottom: 15, top: 30),
+                                margin: const EdgeInsets.only(left: 15),
+                                child: Row(
+                                  children: [
+                                    Container(
+                                      width: 60,
+                                      height: 60,
+                                      decoration: const BoxDecoration(
+                                        image: DecorationImage(
+                                          image:
+                                              AssetImage('assets/img/B1.png'),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              Container(
+                                margin: const EdgeInsets.only(top: 20),
+                                child: Column(
+                                  children: [
+                                    const Text(
+                                      'Entregar ahora',
+                                      style: TextStyle(
+                                        fontSize: 12,
+                                        color: ColorSelect.txtBoSubHe,
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 80,
+                                      child: DropdownButton<String>(
+                                        icon: const Icon(
+                                            Icons.keyboard_arrow_down),
+                                        value: dropdownValue,
+                                        items: ['One', 'Two', 'Three']
+                                            .map<DropdownMenuItem<String>>(
+                                                (value) => DropdownMenuItem(
+                                                      child: Text(
+                                                        value,
+                                                        style: const TextStyle(
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                            fontSize: 15),
+                                                      ),
+                                                      value: value,
+                                                    ))
+                                            .toList(),
+                                        onChanged: (newValue) {
+                                          setState(() {
+                                            dropdownValue = newValue;
+                                          });
+                                        },
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      width: size.width / 2,
+                      height: 150,
+                      child: Column(
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(left: 70),
+                            child: const Image(
+                              image: AssetImage('assets/img/B5.png'),
+                              width: 90,
+                              height: 85,
+                            ),
+                          ),
+                          Container(
+                            // padding: const EdgeInsets.only(top: 20),
+                            margin: const EdgeInsets.only(left: 25, right: 10),
+                            child: DropdownButton<String>(
+                              icon: const Icon(Icons.keyboard_arrow_down),
+                              value: dropdownValue2,
+                              isExpanded: true,
+                              items: ['Entrega a domicilio', 'Two', 'Three']
+                                  .map<DropdownMenuItem<String>>((value) =>
+                                      DropdownMenuItem(
+                                        child: Text(
+                                          value,
+                                          style: const TextStyle(fontSize: 15),
+                                        ),
+                                        value: value,
+                                      ))
+                                  .toList(),
+                              onChanged: (newValue) {
+                                setState(() {
+                                  dropdownValue2 = newValue;
+                                });
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const Divider(
+                height: 3,
+                color: ColorSelect.txtBoSubHe,
+              ),
+              SizedBox(
+                height: 580,
+                width: size.width,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Container(
+                      margin:
+                          const EdgeInsets.only(left: 10, bottom: 10, top: 10),
+                      child: const Text(
+                        'Mis mascotas',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 15),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(left: 10, bottom: 7),
+                      width: size.width,
+                      height: 60,
+                      child: SingleChildScrollView(
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                          children: listWidgets,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(bottom: 10),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Card(
+                            child: Column(
+                              children: [
+                                const Image(
+                                  width: 150,
+                                  height: 180,
+                                  image: AssetImage('assets/img/B5.png'),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.only(bottom: 15),
+                                  child: const Text(
+                                    'PRODUCTOS',
+                                    style: TextStyle(
+                                        color: ColorSelect.btnBackgroundBo2,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                )
+                              ],
+                            ),
+                          ),
+                          Card(
+                            child: Column(
+                              children: [
+                                const Image(
+                                  width: 150,
+                                  height: 180,
+                                  image: AssetImage('assets/img/B1.png'),
+                                ),
+                                Container(
+                                  padding: const EdgeInsets.only(bottom: 15),
+                                  child: const Text(
+                                    'SERVICIOS',
+                                    style: TextStyle(
+                                        color: ColorSelect.btnBackgroundBo2,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                    ),
+                    Container(
+                      margin: const EdgeInsets.only(top: 10),
+                      height: 50,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: [
+                          Container(
+                            height: 35,
+                            width: 300,
+                            decoration: BoxDecoration(
+                                color: Colors.grey[300],
+                                borderRadius: BorderRadius.circular(30)),
+                            child: TextField(
+                              textAlignVertical: TextAlignVertical.bottom,
+                              onChanged: (text) {},
+                              decoration: const InputDecoration(
+                                  focusColor: Colors.grey,
+                                  border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(30),
+                                    ),
+                                    borderSide: BorderSide(
+                                        color: Colors.black, width: 1),
+                                  ),
+                                  suffixIcon: Icon(
+                                    Icons.search,
+                                    color: Colors.grey,
+                                  ),
+                                  hintText: 'Buscar productos o servicios...'),
+                            ),
+                          ),
+                          Container(
+                            width: 40,
+                            height: 40,
+                            decoration: BoxDecoration(
+                                color: Colors.pink,
+                                borderRadius: BorderRadius.circular(30)),
+                            child: IconButton(
+                                iconSize: 25,
+                                color: Colors.white,
+                                onPressed: () {},
+                                icon: const Icon(Icons.tune)),
+                          )
+                        ],
+                      ),
+                    ),
+                    Center(
+                      child: SizedBox(
+                        width: size.width - 30,
+                        height: 170,
+                        child: FutureBuilder(
+                          future: carouselImages(),
+                          builder: (BuildContext context,
+                              AsyncSnapshot<List<String>> snapshot) {
+                            if (snapshot.data != null) {
+                              return CarouselSlider(
+                                items: snapshot.data!.map((e) {
+                                  return Center(
+                                      child: Image(
+                                    image: NetworkImage(e),
+                                  ));
+                                }).toList(),
+                                options: CarouselOptions(
+                                    autoPlay: true, viewportFraction: 1),
+                              );
+                            }
+                            return Container();
+                          },
+                        ),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              const Divider(
+                height: 3,
+                color: ColorSelect.txtBoSubHe,
+              ),
+              SizedBox(
+                height: 380,
+                width: double.infinity,
+                child: Column(
+                  children: [
+                    Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceAround,
+                        children: [
+                          Container(
+                            margin: const EdgeInsets.only(top: 10, left: 20),
+                            child: const Text(
+                              'PRODUCTOS CERCA',
+                              style: TextStyle(fontSize: 17),
+                            ),
+                          ),
+                          Container(
+                            margin: const EdgeInsets.only(top: 10),
+                            width: 200,
+                            height: 50,
+                            child: FutureBuilder(
+                              builder: (context, AsyncSnapshot<List> snapshot) {
+                                if (snapshot.data != null) {
+                                  return SingleChildScrollView(
+                                    scrollDirection: Axis.horizontal,
+                                    child: Row(
+                                        children: snapshot.data!
+                                            .map((e) => Container(
+                                                  height: 32,
+                                                  margin: const EdgeInsets.only(
+                                                      left: 5, right: 5),
+                                                  child: ElevatedButton(
+                                                    style: ElevatedButton
+                                                        .styleFrom(
+                                                            primary: Colors
+                                                                .grey[300]),
+                                                    child: Text(
+                                                      e,
+                                                      style: TextStyle(
+                                                          color:
+                                                              Colors.grey[600]),
+                                                    ),
+                                                    onPressed: () {},
+                                                  ),
+                                                ))
+                                            .toList()),
+                                  );
+                                }
+                                return Container();
+                              },
+                              future: filterPets(),
+                            ),
+                          )
+                        ]),
+                    Container(
+                      margin: const EdgeInsets.only(top: 20, left: 20),
+                      child: FutureBuilder(
+                        future: produc_carts(),
+                        builder: (BuildContext context,
+                            AsyncSnapshot<List<Map<dynamic, dynamic>>>
+                                snapshot) {
+                          if (snapshot.data != null) {
+                            return SingleChildScrollView(
+                              scrollDirection: Axis.horizontal,
+                              child: Row(
+                                children: snapshot.data!
+                                    .map(
+                                      (e) => _createCards(
+                                          e['urlImage'],
+                                          e['description'],
+                                          e['price'],
+                                          e['name']),
+                                    )
+                                    .toList(),
+                              ),
+                            );
+                          }
+                          return Container();
+                        },
+                      ),
+                    )
+                  ],
+                ),
+              ),
+            ],
           ),
-        ));
-  }
-
-  AnimatedContainer animatedMethod({required int index}) {
-    return AnimatedContainer(
-      margin: const EdgeInsets.only(right: 10),
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(3),
-          color: pages == index
-              ? ColorSelect.paginatorNext
-              : ColorSelect.txtBoSubHe),
-      height: 5,
-      width: pages == index ? 20 : 15,
-      duration: kThemeAnimationDuration,
+        ),
+      ),
     );
   }
 
-  void _changeImage() {
-    Timer.periodic(const Duration(seconds: 2), (timer) {
-      if (pages == 2) {
-        controller.jumpToPage(controller.initialPage);
-      } else {
-        controller.nextPage(
-            duration: const Duration(seconds: 1), curve: Curves.easeIn);
-      }
-    });
+  Widget _createCards(
+      String image, String description, double price, String name) {
+    return InkWell(
+      onTap: () {
+        Navigator.pushNamed(context, 'product', arguments: {
+          'url': image,
+          'name': name,
+          'description': description
+        });
+      },
+      child: Container(
+        alignment: Alignment.topLeft,
+        width: 185,
+        height: 280,
+        child: Card(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
+          child: Column(
+            children: [
+              Container(
+                width: 180,
+                height: 150,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  image: DecorationImage(
+                    fit: BoxFit.fill,
+                    image: NetworkImage(image),
+                  ),
+                ),
+              ),
+              Container(
+                margin: const EdgeInsets.only(left: 5, top: 10),
+                alignment: Alignment.topLeft,
+                child: Text(
+                  name,
+                  style: TextStyle(
+                      color: Colors.green[300], fontWeight: FontWeight.bold),
+                ),
+              ),
+              Container(
+                alignment: Alignment.topLeft,
+                margin: const EdgeInsets.only(left: 5, top: 20),
+                child: Text(
+                  description,
+                  style: TextStyle(color: Colors.grey[400], fontSize: 11),
+                ),
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                margin: const EdgeInsets.only(top: 20, left: 5),
+                child: Text(
+                  r'$' + price.toString(),
+                  style: const TextStyle(fontWeight: FontWeight.bold),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
