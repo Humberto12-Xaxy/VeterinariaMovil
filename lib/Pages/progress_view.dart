@@ -1,8 +1,6 @@
 import 'dart:async';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:practicas/Styles/colors_view.dart';
 import 'package:practicas/widgets/progressPainter.dart';
 
 class ProgressView extends StatefulWidget {

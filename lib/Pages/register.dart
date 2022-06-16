@@ -193,7 +193,6 @@ class _RegisterState extends State<Register> {
                           );
                         } else {
                           register(fullname!, email!, password!).then((value) {
-                            print(value);
                             if (value) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
@@ -201,6 +200,7 @@ class _RegisterState extends State<Register> {
                                   content: Text('Usuario creado'),
                                 ),
                               );
+                              Navigator.pushReplacementNamed(context, 'login');
                             } else {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(

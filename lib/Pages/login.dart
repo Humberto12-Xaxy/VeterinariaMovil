@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:practicas/Styles/colors_view.dart';
+import 'package:practicas/services/login.dart';
 
 class Login extends StatefulWidget {
   const Login({Key? key}) : super(key: key);
@@ -10,6 +11,8 @@ class Login extends StatefulWidget {
 
 class _LoginState extends State<Login> {
   bool _isObscure = true;
+  String? email = '';
+  String? password = '';
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
@@ -26,7 +29,7 @@ class _LoginState extends State<Login> {
             child: Image.asset('assets/img/splash.png'),
           )
         ],
-        
+
         backgroundColor: ColorSelect.txtBoHe,
       ),
       body: Container(
@@ -67,7 +70,9 @@ class _LoginState extends State<Login> {
                         borderSide: BorderSide(color: Colors.black, width: 1)),
                     hintText: 'Email Adress',
                   ),
-                  onChanged: (text) {},
+                  onChanged: (text) {
+                    email = text;
+                  },
                 ),
               ),
               Container(
@@ -101,7 +106,9 @@ class _LoginState extends State<Login> {
                         borderSide: BorderSide(color: Colors.black, width: 1)),
                     hintText: 'Password',
                   ),
-                  onChanged: (text) {},
+                  onChanged: (text) {
+                    password = text;
+                  },
                 ),
               ),
               Container(
@@ -128,7 +135,30 @@ class _LoginState extends State<Login> {
                         'Ingresar',
                         style: TextStyle(fontSize: 18),
                       ),
-                      onPressed: () {},
+                      onPressed: () {
+                        if (email == '' && password == '') {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                              duration: Duration(milliseconds: 1000),
+                              content: Text('Rellene los campos'),
+                            ),
+                          );
+                        } else {
+                          login(email!, password!).then((value) {
+                                if (value['status'] == 'success') {
+                                  Navigator.pushReplacementNamed(
+                                      context, 'homepage');
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      duration: Duration(milliseconds: 1000),
+                                      content: Text('Contraseña incorrecta'),
+                                    ),
+                                  );
+                                }
+                              });
+                        }
+                      },
                       style: ElevatedButton.styleFrom(
                           primary: ColorSelect.splashColor,
                           shape: RoundedRectangleBorder(

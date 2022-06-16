@@ -3,7 +3,8 @@ import 'package:practicas/Pages/forgotPass.dart';
 import 'package:practicas/Pages/home.dart';
 import 'package:practicas/Pages/homepage.dart';
 import 'package:practicas/Pages/login.dart';
-import 'package:practicas/Pages/progressView.dart';
+import 'package:practicas/Pages/product.dart';
+import 'package:practicas/Pages/progress_view.dart';
 import 'package:practicas/Pages/register.dart';
 import 'package:practicas/splash/splash_view.dart';
 
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
       // home: SplashView(),
-      initialRoute: 'register',
+      initialRoute: 'homepage',
       routes: {
         'splash': (context) => const SplashView(),
         'progress': (context) => const ProgressView(),
@@ -29,7 +30,8 @@ class MyApp extends StatelessWidget {
         'login': (context) => const Login(),
         'register': (context) => Register(),
         'forgotPass': (context) => const ForgotPassword(),
-        'homepage': (context) => const Home()
+        'homepage': (context) => const Home(),
+        'product' : (context) =>  Product()
       },
     );
   }

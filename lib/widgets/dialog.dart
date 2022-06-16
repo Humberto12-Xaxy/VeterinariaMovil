@@ -11,7 +11,6 @@ class DialogContainer extends StatelessWidget {
         width: 300,
         height: 450,
         child: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Container(
               width: 200,
